@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit Post</title>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+    <h1>Edit Post</h1>
+
+    <form
+        action="/post/<%= post._id %>/edit"
+        method="POST"
+    >
+
+        <textarea
+            name="content"
+            rows="5"
+            cols="50"
+            required
+        ><%= post.content %></textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Update Post
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/post">
+        Cancel
+    </a>
+
+</body>
+
+</html>
