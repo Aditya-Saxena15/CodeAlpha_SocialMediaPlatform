@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>My Profile</title>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+    <h1>My Profile</h1>
+
+    <nav>
+
+        <a href="/post">Home</a> |
+
+        <a href="/users">Users</a> |
+
+        <a href="/profile">Profile</a> |
+
+        <a href="/logout">Logout</a>
+
+    </nav>
+
+    <hr>
+
+
+    <!-- PROFILE INFORMATION -->
+
+    <h2>
+        <%= user.username %>
+    </h2>
+
+    <p>
+        <strong>Email:</strong>
+        <%= user.email %>
+    </p>
+
+
+    <!-- EDIT PROFILE -->
+
+    <a href="/profile/edit">
+
+        <button type="button">
+            Edit Profile
+        </button>
+
+    </a>
+
+
+    <hr>
+
+
+    <!-- PROFILE STATS -->
+
+    <h3>Profile Stats</h3>
+
+    <p>
+        <strong><%= posts.length %></strong>
+        Posts
+    </p>
+
+    <p>
+        <strong><%= followers %></strong>
+        Followers
+    </p>
+
+    <p>
+        <strong><%= following %></strong>
+        Following
+    </p>
+
+
+    <hr>
+
+
+    <!-- MY POSTS -->
+
+    <h2>My Posts</h2>
+
+
+    <% if (posts.length === 0) { %>
+
+        <p>
+            You have not created any posts yet.
+        </p>
+
+        <a href="/post">
+            Create your first post
+        </a>
+
+    <% } else { %>
+
+
+        <% posts.forEach(post => { %>
+
+            <div>
+
+                <h3>
+                    <%= user.username %>
+                </h3>
+
+                <p>
+                    <%= post.content %>
+                </p>
+
+
+                <% if (post.createdAt) { %>
+
+                    <small>
+                        <%= post.createdAt.toLocaleString() %>
+                    </small>
+
+                <% } %>
+
+
+                <br><br>
+
+
+                <!-- EDIT POST -->
+
+                <a href="/post/<%= post._id %>/edit">
+
+                    <button type="button">
+                        Edit
+                    </button>
+
+                </a>
+
+
+                <!-- DELETE POST -->
+
+                <form
+                    action="/post/<%= post._id %>/delete"
+                    method="POST"
+                    style="display:inline;"
+                >
+
+                    <button type="submit">
+                        Delete
+                    </button>
+
+                </form>
+
+            </div>
+
+            <hr>
+
+        <% }) %>
+
+
+    <% } %>
+
+
+</body>
+
+</html>
