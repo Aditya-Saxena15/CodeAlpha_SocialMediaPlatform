@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Social Media Platform</title>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+    <h1>Social Media Platform</h1>
+
+    <nav>
+
+        <a href="/post">Home</a> |
+
+        <a href="/users">Users</a> |
+
+        <a href="/profile">Profile</a> |
+
+        <a href="/logout">Logout</a>
+
+    </nav>
+
+    <hr>
+
+
+    <!-- CREATE POST -->
+
+    <h2>Create a Post</h2>
+
+    <form action="/post" method="POST">
+
+        <textarea
+            name="content"
+            placeholder="What's on your mind?"
+            rows="5"
+            cols="40"
+            required
+        ></textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Post
+        </button>
+
+    </form>
+
+    <hr>
+
+
+    <!-- POSTS -->
+
+    <h2>Posts</h2>
+
+
+    <% if (posts.length === 0) { %>
+
+        <p>
+            No posts yet.
+        </p>
+
+    <% } else { %>
+
+
+        <% posts.forEach(post => { %>
+
+            <div>
+
+                <!-- USERNAME -->
+
+                <h3>
+                    <%= post.user.username %>
+                </h3>
+
+
+                <!-- POST CONTENT -->
+
+                <p>
+                    <%= post.content %>
+                </p>
+
+
+                <!-- POST DATE -->
+
+                <% if (post.createdAt) { %>
+
+                    <small>
+                        <%= post.createdAt.toLocaleString() %>
+                    </small>
+
+                <% } %>
+
+
+                <!-- EDIT / DELETE -->
+
+                <% if (
+                    post.user._id.toString() ===
+                    sessionUserId.toString()
+                ) { %>
+
+                    <br><br>
+
+                    <a href="/post/<%= post._id %>/edit">
+
+                        <button type="button">
+                            Edit
+                        </button>
+
+                    </a>
+
+
+                    <form
+                        action="/post/<%= post._id %>/delete"
+                        method="POST"
+                        style="display:inline;"
+                    >
+
+                        <button type="submit">
+                            Delete
+                        </button>
+
+                    </form>
+
+                <% } %>
+
+
+                <br><br>
+
+
+                <!-- LIKE -->
+
+                <%
+                    const postLikes = likes.filter(
+                        like =>
+                            like.post.toString() ===
+                            post._id.toString()
+                    );
+
+                    const userLiked = postLikes.some(
+                        like =>
+                            like.user.toString() ===
+                            sessionUserId.toString()
+                    );
+                %>
+
+
+                <form
+                    action="/post/<%= post._id %>/like"
+                    method="POST"
+                >
+
+                    <% if (userLiked) { %>
+
+                        <button type="submit">
+                            Unlike ❤️
+                        </button>
+
+                    <% } else { %>
+
+                        <button type="submit">
+                            Like 🤍
+                        </button>
+
+                    <% } %>
+
+                </form>
+
+
+                <p>
+
+                    <%= postLikes.length %>
+                    Likes
+
+                </p>
+
+
+                <!-- COMMENTS -->
+
+                <h4>
+                    Comments
+                </h4>
+
+
+                <%
+                    const postComments = comments.filter(
+                        comment =>
+                            comment.post.toString() ===
+                            post._id.toString()
+                    );
+                %>
+
+
+                <% if (postComments.length === 0) { %>
+
+                    <p>
+                        No comments yet.
+                    </p>
+
+                <% } else { %>
+
+
+                    <% postComments.forEach(comment => { %>
+
+                        <div>
+
+                            <strong>
+                                <%= comment.user.username %>
+                            </strong>
+
+                            <span>
+                                <%= comment.content %>
+                            </span>
+
+                        </div>
+
+                    <% }) %>
+
+
+                <% } %>
+
+
+                <br>
+
+
+                <!-- ADD COMMENT -->
+
+                <form
+                    action="/post/<%= post._id %>/comment"
+                    method="POST"
+                >
+
+                    <input
+                        type="text"
+                        name="content"
+                        placeholder="Write a comment..."
+                        required
+                    >
+
+                    <button type="submit">
+                        Comment
+                    </button>
+
+                </form>
+
+
+            </div>
+
+
+            <hr>
+
+
+        <% }) %>
+
+
+    <% } %>
+
+
+</body>
+
+</html>
