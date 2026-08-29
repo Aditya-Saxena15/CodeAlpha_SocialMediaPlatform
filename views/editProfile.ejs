@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+    <h1>Edit Profile</h1>
+
+    <nav>
+
+        <a href="/post">Home</a> |
+
+        <a href="/users">Users</a> |
+
+        <a href="/profile">Profile</a> |
+
+        <a href="/logout">Logout</a>
+
+    </nav>
+
+    <hr>
+
+    <form action="/profile/edit" method="POST">
+
+        <label>
+            Username:
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            name="username"
+            value="<%= user.username %>"
+            required
+        >
+
+        <br><br>
+
+
+        <label>
+            Email:
+        </label>
+
+        <br>
+
+        <input
+            type="email"
+            name="email"
+            value="<%= user.email %>"
+            required
+        >
+
+        <br><br>
+
+
+        <label>
+            New Password:
+        </label>
+
+        <br>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Leave empty to keep old password"
+        >
+
+        <br><br>
+
+
+        <button type="submit">
+            Save Changes
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/profile">
+        Cancel
+    </a>
+
+</body>
+
+</html>
