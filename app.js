@@ -394,6 +394,42 @@ app.get("/post/:id/edit", IsLoggedIn, async (req, res) => {
     }
 });
 
+app.post("/post/:id/edit", IsLoggedIn, async (req, res) => {
+    try {
+
+
+        const post = await Post.findById(req.params.id);
+
+
+        if (!post) {
+            return res.send("Post not found");
+        }
+
+
+        if (post.user.toString() !== req.session.userId.toString()) {
+            return res.send("You can only edit your own post");
+        }
+
+
+        post.content = req.body.content;
+
+
+        await post.save();
+
+
+        res.redirect("/post");
+
+
+    } catch (err) {
+
+
+        console.log(err);
+        res.send("Error updating post");
+
+
+    }
+});
+
 app.post("/post/:id/delete", IsLoggedIn, async (req, res) => {
     try {
 
